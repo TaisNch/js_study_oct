@@ -9,11 +9,21 @@ const array = {
   servicePrice2:0,
   rollback:25,
   start: function () {
-    array.title = prompt ('Как называется Ваш проект', 'Калькулятор')
-    array.screens = prompt ('Какие типы экранов нужно разработать?', "Простые, Сложные")
-    do {
-    array.screenPrice = +prompt("Введите стоимость");
-  } while (isNaN(array.screenPrice) || array.screenPrice <= 0);
+  array.asking()
+  array.allServicePrices()
+  array.servicePercentPrice()
+  array.getUpperTitle()
+  array.rollbackMessage()
+  array.logger()
+},
+   
+ asking: function(){
+    do {array.title = prompt ('Как называется Ваш проект', 'Калькулятор')}
+    while (!isNaN(array.title.trim()));
+    do {array.screens = prompt ('Какие типы экранов нужно разработать?', "Простые, Сложные")}
+    while (!isNaN(array.screens.trim()));
+    do {array.screenPrice = +prompt("Введите стоимость");} 
+    while (isNaN(array.screenPrice) || array.screenPrice <= 0);
     array.adaptive = confirm('Нужен ли адаптив на странице?');
     array.service1 = prompt ('Какой дополнительный тип услуги нужен?');
     array.servicePrice1 = +prompt (`Сколько это будет стоить ${array.service1}?`);
@@ -40,22 +50,29 @@ const array = {
  }
   },
  getUpperTitle: function () {
-      const trimmedTitle = array.title.trim(); 
-      const firstLetter = array.trimmedTitle.substring(0, 1).toUpperCase(); 
-      const remainingLetters = array.trimmedTitle.substring(1).toLowerCase(); 
-      const newTitle = `${firstLetter}${remainingLetters}`; 
-      return newTitle;
-    },
+    return  array.title.trim().substring(0, 1).toUpperCase() +array.title.trim().substring(1).toLowerCase()
+       },
+
+ rollbackMessage: function (price) {
+        if (price>=3000) {
+          return 'Мы можем дать скидку - 10%';
+         } else if (price<30000 && price>=15000) {
+          return'Мы можем дать скидку - 5%';
+         }
+         else if (price<15000 && price>0)
+          return 'Скидка не предусмотрена';
+         else {
+          return 'Что-то пошло не так, надо уточнить стоимость проекта и откат посреднику'; 
+         }
+      },
+
   logger:function() {
     console.log(`Полная стоимость проекта: ${array.fullPrice()}`);
     console.log(`Cтоимость проекта с учетом отката: ${array. servicePercentPrice()}`);
   }
   }
-   
-  array.start();
-  array.logger();
-  
-
+   array.start()
+ 
  
 
 
