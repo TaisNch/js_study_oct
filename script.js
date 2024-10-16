@@ -40,8 +40,8 @@ const array = {
   },
   getAllServicePrices: function() {
   //  усложненный расчет методом reduce
-    array.allServicePrices = array.services.reduce((total, currentValue) => {
-      return accumulator + service.price;
+    array.allServicePrices = array.services.reduce((total, service) => {
+      return total + service.price;
     }, 0); 
    
   //  расчет методом for of
