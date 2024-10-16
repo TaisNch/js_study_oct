@@ -2,18 +2,16 @@ const array = {
   title : '',
   screens: '',
   adaptive: true,
-  service1: '',
-  service2: '',
+  services:[],
+  allServicePrices: 0,
   screenPrice: 0,
-  servicePrice1:0,
-  servicePrice2:0,
   rollback:25,
   start: function () {
   array.asking()
-  array.allServicePrices()
+  array.getAllServicePrices()
   array.servicePercentPrice()
   array.getUpperTitle()
-  array.rollbackMessage()
+  array.discount()
   array.logger()
 },
    
@@ -25,15 +23,28 @@ const array = {
     do {array.screenPrice = +prompt("Введите стоимость");} 
     while (isNaN(array.screenPrice) || array.screenPrice <= 0);
     array.adaptive = confirm('Нужен ли адаптив на странице?');
-    array.service1 = prompt ('Какой дополнительный тип услуги нужен?');
-    array.servicePrice1 = +prompt (`Сколько это будет стоить ${array.service1}?`);
-    array.service2 = prompt ('Какой дополнительный тип услуги нужен?');
-    array.servicePrice2 = +prompt (`Сколько это будет стоить ${array.service2}?`);
+    for (let i=0; i<2; i++) {
+      let name=prompt ('Какой дополнительный тип услуги нужен?')
+      let price=0
+      let id = i
+      do {
+        price=+prompt (`Сколько это будет стоить?`)
+      } while  (isNaN(price) || price <= 0);
+      let service = {
+        id: id,
+        name: name,
+        price: price
+      };
+      array.services.push(service)
+     }
   },
-  allServicePrices: function() {
-    return array.servicePrice1 + array.servicePrice2 },
+  getAllServicePrices: function() {
+    for (let service of  array.services)
+    {array.allServicePrices += service.price}
+    return array.allServicePrices
+  },
   fullPrice: function() {
-    return array.screenPrice +array.allServicePrices() },
+    return array.screenPrice +array.getAllServicePrices() },
   servicePercentPrice: function() {
     return array.fullPrice() - array.fullPrice() * (array.rollback/100)
     },
@@ -53,52 +64,9 @@ const array = {
     return  array.title.trim().substring(0, 1).toUpperCase() +array.title.trim().substring(1).toLowerCase()
        },
 
- rollbackMessage: function (price) {
-        if (price>=3000) {
-          return 'Мы можем дать скидку - 10%';
-         } else if (price<30000 && price>=15000) {
-          return'Мы можем дать скидку - 5%';
-         }
-         else if (price<15000 && price>0)
-          return 'Скидка не предусмотрена';
-         else {
-          return 'Что-то пошло не так, надо уточнить стоимость проекта и откат посреднику'; 
-         }
-      },
-
   logger:function() {
     console.log(`Полная стоимость проекта: ${array.fullPrice()}`);
-    console.log(`Cтоимость проекта с учетом отката: ${array. servicePercentPrice()}`);
+    console.log(`Cтоимость проекта с учетом отката: ${array.servicePercentPrice()}`);
   }
   }
    array.start()
- 
- 
-
-
-
-// const getUpperTitle = function getTitle() {
-//   const trimmedTitle = array.title.trim(); 
-//   const firstLetter = array.trimmedTitle.substring(0, 1).toUpperCase(); 
-//   const remainingLetters = array.trimmedTitle.substring(1).toLowerCase(); 
-//   const newTitle = `${firstLetter}${remainingLetters}`; 
-//   return newTitle;
-// }
-
-// console.log(`Название проекта: ${getUpperTitle()}`);
-
-// const getRollbackMessage = function RollbackMessage (price) {
-//   if (price>=3000) {
-//     return 'Мы можем дать скидку - 10%';
-//    } else if (price<30000 && price>=15000) {
-//     return'Мы можем дать скидку - 5%';
-//    }
-//    else if (price<15000 && price>0)
-//     return 'Скидка не предусмотрена';
-//    else {
-//     return 'Что-то пошло не так, надо уточнить стоимость проекта и откат посреднику'; 
-//    }
-// }
-
-
-
