@@ -39,9 +39,15 @@ const array = {
      }
   },
   getAllServicePrices: function() {
-    for (let service of  array.services)
-    {array.allServicePrices += service.price}
-    return array.allServicePrices
+  //  усложненный расчет методом reduce
+    array.allServicePrices = array.services.reduce((total, currentValue) => {
+      return accumulator + service.price;
+    }, 0); 
+   
+  //  расчет методом for of
+  //   for (let service of  array.services)
+  //   {array.allServicePrices += service.price}
+  //   return array.allServicePrices
   },
   fullPrice: function() {
     return array.screenPrice +array.getAllServicePrices() },
